@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+docker run --rm proteowizard/pwiz-skyline-i-agree-to-the-vendor-licenses wine msconvert --help > /dev/null
+
+if [[ $# -ne 2 ]]; then
+  echo "Usage: msconvert <input.mgf> <output_folder>" >&2
+  exit 1
+fi
+
+INPUT_MGF="$(realpath "$1")"
+OUTPUT_DIR="$(realpath "$2")"
+FILENAME="${INPUT_MGF##*/}"
+FILENAME="${FILENAME%.*}"
+
+if [[ ! -f "$INPUT_MGF" ]]; then
+  echo "Error: input file does not exist: $INPUT_MGF" >&2
+  exit 1
+fi
+
+mkdir -p "$OUTPUT_DIR"
+
+BASENAME="$(basename "${INPUT_MGF%.*}")"
+OUTPUT_MZML="${OUTPUT_DIR}/${BASENAME}.mzML"
+
+docker run --rm \
+  -v "${INPUT_MGF}:/data/${FILENAME}.mgf:ro" \
+  -v "${OUTPUT_DIR}:/out" \
+  proteowizard/pwiz-skyline-i-agree-to-the-vendor-licenses \
+  sh -c "wine msconvert \
+    --zlib \
+    --filter 'titleMaker <RunId>.<ScanNumber>.<ScanNumber>.<ChargeState> File:\\\"<SourcePath>\\\", NativeID:\\\"<Id>\\\"' \
+    /data/${FILENAME}.mgf \
+    -o /out && \
+    chown -R $(id -u):$(id -g) /out"
+
+echo "Created: $OUTPUT_MZML"
