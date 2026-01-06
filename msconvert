@@ -20,9 +20,6 @@ fi
 
 mkdir -p "$OUTPUT_DIR"
 
-BASENAME="$(basename "${INPUT_MGF%.*}")"
-OUTPUT_MZML="${OUTPUT_DIR}/${BASENAME}.mzML"
-
 docker run --rm \
   -v "${INPUT_MGF}:/data/${FILENAME}.mgf:ro" \
   -v "${OUTPUT_DIR}:/out" \
