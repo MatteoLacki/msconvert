@@ -31,4 +31,3 @@ docker run --rm \
     -o /out && \
     chown -R $(id -u):$(id -g) /out"
 
-echo "Created: $OUTPUT_MZML"
