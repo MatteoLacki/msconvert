@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-docker run --rm proteowizard/pwiz-skyline-i-agree-to-the-vendor-licenses wine msconvert --help > /dev/null
 
 if [[ $# -ne 2 ]]; then
   echo "Usage: msconvert <input.mgf> <output_folder>" >&2
   exit 1
 fi
+
+docker run --rm proteowizard/pwiz-skyline-i-agree-to-the-vendor-licenses wine msconvert --help > /dev/null
 
 INPUT_MGF="$(realpath "$1")"
 OUTPUT_DIR="$(realpath "$2")"
