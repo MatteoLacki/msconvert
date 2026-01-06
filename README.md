@@ -7,7 +7,7 @@ Prerequisites: working `docker`.
 Usage: msconvert <input.mgf> <output_folder>
 ```
 
-E.g. `msconvert test.mgf /tmp/testingmsconvert` should make `/tmp/testingmsconvert/test.mzML`.
+E.g. `msconvert example/test.mgf example/out` should make `example/out/test.mzML`.
 
 
 # LICENCE 
