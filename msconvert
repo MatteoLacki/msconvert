@@ -27,6 +27,7 @@ docker run --rm \
   proteowizard/pwiz-skyline-i-agree-to-the-vendor-licenses \
   sh -c "wine msconvert \
     --zlib \
+    --mz32 \
     --filter 'titleMaker <RunId>.<ScanNumber>.<ScanNumber>.<ChargeState> File:\\\"<SourcePath>\\\", NativeID:\\\"<Id>\\\"' \
     /data/${FILENAME}.mgf \
     -o /out && \
